@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import { NoteProvider } from "./context/NotesContext";
+import { NotesProvider } from "./context/NotesContext";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
-import { NotesPage } from "./pages/NotesPages";
+import  NotesPage  from "./pages/NotesPages";
 import NotesFormPage from "./pages/NotesFormPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
@@ -15,7 +15,7 @@ import Navbar2 from "./components/Navbar2";
 function App() {
   return (
     <AuthProvider>
-      <NoteProvider>
+      <NotesProvider>
         <BrowserRouter>
           <main className="container mx-auto px-10">
             <MainLayout />
@@ -33,7 +33,7 @@ function App() {
             </Routes>
           </main>
         </BrowserRouter>
-      </NoteProvider>
+      </NotesProvider>
     </AuthProvider>
   );
 }

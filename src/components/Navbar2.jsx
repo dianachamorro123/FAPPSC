@@ -1,144 +1,67 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Navbar2() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { logout, isAuthenticated, user } = useAuth();
+  const { logout, user } = useAuth();
 
   return (
-    <nav className="bg-gray-800">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
-          {/* Botón del menú móvil */}
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              type="button"
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-none"
-              aria-controls="mobile-menu"
-              aria-expanded={menuOpen}
-            >
-              <span className="sr-only">Open main menu</span>
-              {menuOpen ? (
-                <svg
-                  className="size-6"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="size-6"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 6h18M3 12h18m-18 6h18"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
-
-          {/* Links del menú */}
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Logo"
-              />
-            </div>
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                <a
-                  href="/notes"
-                  className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-                >
-                  Notes
-                </a>
-                <a
-                  href="/add-note"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                >
-                  Create Note
-                </a>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h1 className="font-bold rounded-md px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
-              {user.username}
-            </h1>
-          </div>
-          {/* Dropdown del perfil */}
-          <div className="relative ml-3">
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-            >
-              <img
-                className="size-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt="User"
-              />
-            </button>
-
-            {dropdownOpen && (
-              <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5">
-                <a
-                  href="/profile"
-                  className="block px-4 py-2 text-sm text-gray-700"
-                >
-                  Your Profile
-                </a>
-
-                <a
-                  href="/"
-                  onClick={() => {
-                    logout();
-                  }}
-                  className="block px-4 py-2 text-sm text-gray-700"
-                >
-                  Sign out
-                </a>
-              </div>
-            )}
-          </div>
+    <nav className="bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-md sticky top-4 z-50 max-w-7xl mx-auto my-4 px-6 py-3 rounded-2xl flex justify-between items-center shadow-2xl">
+      {/* Logo */}
+      <Link to="/notes" className="flex items-center gap-2.5 group">
+        <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-black group-hover:scale-105 transition-transform">
+          D
         </div>
-      </div>
+        <h1 className="text-lg font-bold text-white tracking-tight">
+          Developers<span className="text-cyan-400">App</span>
+        </h1>
+      </Link>
 
-      {/* Menú móvil */}
-      {menuOpen && (
-        <div className="sm:hidden" id="mobile-menu">
-          <div className="space-y-1 px-2 pt-2 pb-3">
-            <a
-              href="/"
-              className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-            >
-              Home
-            </a>
-            <a
-              href="/"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              About
-            </a>
-          </div>
-        </div>
-      )}
+      {/* Menú de sesión activa */}
+      <ul className="flex items-center gap-3">
+        {/* Saludo al usuario */}
+        <li className="hidden sm:flex items-center gap-2 bg-zinc-800/50 border border-zinc-700/40 px-3.5 py-1.5 rounded-full text-xs text-zinc-300">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>
+            Hola, <strong className="text-white font-semibold">{user?.username}</strong>
+          </span>
+        </li>
+
+        {/* Botón Nueva Nota */}
+        <li>
+          <Link
+            to="/add-note"
+            className="bg-cyan-500 hover:bg-cyan-400 text-zinc-950 text-xs sm:text-sm font-bold px-4 py-2 rounded-xl transition-all shadow-md shadow-cyan-500/10 flex items-center gap-1.5"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Nueva Nota</span>
+          </Link>
+        </li>
+
+        {/* Enlace Perfil */}
+        <li>
+          <Link
+            to="/profile"
+            className="text-zinc-300 hover:text-white text-xs sm:text-sm font-medium px-3 py-2 transition"
+          >
+            Perfil
+          </Link>
+        </li>
+
+        {/* Botón Cerrar Sesión */}
+        <li>
+          <button
+            onClick={() => logout()}
+            className="bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl transition-all border border-zinc-700/50 flex items-center gap-1.5"
+          >
+            <svg className="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span>Cerrar Sesión</span>
+          </button>
+        </li>
+      </ul>
     </nav>
   );
 }
